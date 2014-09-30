@@ -1,0 +1,124 @@
+url,title
+<bound method SelectorList.extract of []>,<bound method SelectorList.extract of []>
+<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/@href' data=u'http://www.righto.com/2014/09/mining-bit'>]>,<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/text()' data=u'Mining Bitcoin with pencil and paper: 0.'>]>
+<bound method SelectorList.extract of []>,<bound method SelectorList.extract of []>
+<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/@href' data=u'http://www.openbsd.org/papers/eurobsdcon'>]>,<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/text()' data=u'LibreSSL: More Than 30 Days Later'>]>
+<bound method SelectorList.extract of []>,<bound method SelectorList.extract of []>
+<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/@href' data=u'http://thegoodones.quora.com/Interesting'>]>,<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/text()' data=u'The downfall of Quora (2013)'>]>
+<bound method SelectorList.extract of []>,<bound method SelectorList.extract of []>
+<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/@href' data=u'http://nautil.us/issue/6/secret-codes/te'>]>,<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/text()' data=u'Machine learning is teaching us the secr'>]>
+<bound method SelectorList.extract of []>,<bound method SelectorList.extract of []>
+<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/@href' data=u'https://plus.google.com/1015848892828789'>]>,"<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/text()' data=u""What's up with the number 163?"">]>"
+<bound method SelectorList.extract of []>,<bound method SelectorList.extract of []>
+<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/@href' data=u'https://fezvrasta.github.io/bootstrap-ma'>]>,<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/text()' data=u'Material Design for Bootstrap'>]>
+<bound method SelectorList.extract of []>,<bound method SelectorList.extract of []>
+<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/@href' data=u'http://perlhacks.com/2014/09/perls-probl'>]>,"<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/text()' data=u""Perl's Problems"">]>"
+<bound method SelectorList.extract of []>,<bound method SelectorList.extract of []>
+<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/@href' data=u'http://tylergaw.com/articles/building-os'>]>,<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/text()' data=u'Building OS X Apps with JavaScript'>]>
+<bound method SelectorList.extract of []>,<bound method SelectorList.extract of []>
+<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/@href' data=u'https://github.com/lafikl/RWDPerf'>]>,<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/text()' data=u'RWDPerf \u2013 Performance testing for Respon'>]>
+<bound method SelectorList.extract of []>,<bound method SelectorList.extract of []>
+<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/@href' data=u'http://www.ischool.berkeley.edu/newsande'>]>,<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/text()' data=u'Why the Facebook Experiment Is Lousy Soc'>]>
+<bound method SelectorList.extract of []>,<bound method SelectorList.extract of []>
+<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/@href' data=u'http://www.vox.com/2014/9/8/6122867/we-n'>]>,"<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/text()' data=u'California blue whales, once nearly exti'>]>"
+<bound method SelectorList.extract of []>,<bound method SelectorList.extract of []>
+<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/@href' data=u'http://www.businessweek.com/news/2014-09'>]>,<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/text()' data=u'Mystery Man Who Moves Japanese Markets M'>]>
+<bound method SelectorList.extract of []>,<bound method SelectorList.extract of []>
+<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/@href' data=u'http://blog.lacebark.io/2014/09/25/area-'>]>,<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/text()' data=u'Area programmer laments designers don\u2019t '>]>
+<bound method SelectorList.extract of []>,<bound method SelectorList.extract of []>
+<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/@href' data=u'http://www.healthy-holistic-living.com/u'>]>,<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/text()' data=u'Unlocking the secrets of your poop'>]>
+<bound method SelectorList.extract of []>,<bound method SelectorList.extract of []>
+<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/@href' data=u'http://www.washingtonpost.com/local/crim'>]>,<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/text()' data=u'A Virginia hacker catches the attention '>]>
+<bound method SelectorList.extract of []>,<bound method SelectorList.extract of []>
+<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/@href' data=u'https://techtalk.intersec.com/2014/09/me'>]>,<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/text()' data=u'Optimizing two memory allocators'>]>
+<bound method SelectorList.extract of []>,<bound method SelectorList.extract of []>
+<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/@href' data=u'http://news.nationalgeographic.com/news/'>]>,<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/text()' data=u'Did the Vikings Get a Bum Rap?'>]>
+<bound method SelectorList.extract of []>,<bound method SelectorList.extract of []>
+<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/@href' data=u'https://a16z.com/2014/09/26/valuation-th'>]>,<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/text()' data=u'Raising Capital: Advice We Give Our\xa0Foun'>]>
+<bound method SelectorList.extract of []>,<bound method SelectorList.extract of []>
+<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/@href' data=u'item?id=8379862'>]>,<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/text()' data=u'Ask HN: Final year project in CS'>]>
+<bound method SelectorList.extract of []>,<bound method SelectorList.extract of []>
+<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/@href' data=u'http://www.scottaaronson.com/democritus/'>]>,<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/text()' data=u'Quantum mechanics as a generalization of'>]>
+<bound method SelectorList.extract of []>,<bound method SelectorList.extract of []>
+<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/@href' data=u'http://fastcompression.blogspot.com/2014'>]>,<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/text()' data=u'Counting bytes fast'>]>
+<bound method SelectorList.extract of []>,<bound method SelectorList.extract of []>
+<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/@href' data=u'http://oona.windytan.com/estonia/'>]>,<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/text()' data=u'M/S Estonia accident radio transcript'>]>
+<bound method SelectorList.extract of []>,<bound method SelectorList.extract of []>
+<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/@href' data=u'https://blog.cloudflare.com/one-more-thi'>]>,<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/text()' data=u'One More Thing: Keyless SSL and CloudFla'>]>
+<bound method SelectorList.extract of []>,<bound method SelectorList.extract of []>
+<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/@href' data=u'http://www.mrteacup.org/post/the-cult-of'>]>,<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/text()' data=u'The Cult of Sharing'>]>
+<bound method SelectorList.extract of []>,<bound method SelectorList.extract of []>
+<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/@href' data=u'http://www.wilfred.me.uk/blog/2014/09/27'>]>,<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/text()' data=u'The Definitive Guide to Syntax Highlight'>]>
+<bound method SelectorList.extract of []>,<bound method SelectorList.extract of []>
+<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/@href' data=u'item?id=8379613'>]>,<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/text()' data=u'Ask HN: Where can I find technical co-fo'>]>
+<bound method SelectorList.extract of []>,<bound method SelectorList.extract of []>
+<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/@href' data=u'http://lcamtuf.blogspot.com/2014/09/bash'>]>,<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/text()' data=u'Bash bug: apply the unofficial patch now'>]>
+<bound method SelectorList.extract of []>,<bound method SelectorList.extract of []>
+<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/@href' data=u'http://yahoo.tumblr.com/post/98474044364'>]>,<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/text()' data=u'Yahoo is killing off the Yahoo Directory'>]>
+<bound method SelectorList.extract of []>,<bound method SelectorList.extract of []>
+<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/@href' data=u'http://jvns.ca/blog/2014/09/27/how-does-'>]>,<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/text()' data=u'How does SQLite work? Part 1: Pages'>]>
+<bound method SelectorList.extract of []>,<bound method SelectorList.extract of []>
+<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/@href' data=u'http://lemire.me/blog/archives/2014/09/1'>]>,<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/text()' data=u'Academia or industry?'>]>
+<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/@href' data=u'news?p=2'>]>,<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/text()' data=u'More'>]>
+url,title
+<bound method SelectorList.extract of []>,<bound method SelectorList.extract of []>
+<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/@href' data=u'http://www.righto.com/2014/09/mining-bit'>]>,<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/text()' data=u'Mining Bitcoin with pencil and paper: 0.'>]>
+<bound method SelectorList.extract of []>,<bound method SelectorList.extract of []>
+<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/@href' data=u'http://www.openbsd.org/papers/eurobsdcon'>]>,<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/text()' data=u'LibreSSL: More Than 30 Days Later'>]>
+<bound method SelectorList.extract of []>,<bound method SelectorList.extract of []>
+<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/@href' data=u'http://thegoodones.quora.com/Interesting'>]>,<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/text()' data=u'The downfall of Quora (2013)'>]>
+<bound method SelectorList.extract of []>,<bound method SelectorList.extract of []>
+<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/@href' data=u'https://plus.google.com/1015848892828789'>]>,"<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/text()' data=u""What's up with the number 163?"">]>"
+<bound method SelectorList.extract of []>,<bound method SelectorList.extract of []>
+<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/@href' data=u'http://nautil.us/issue/6/secret-codes/te'>]>,<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/text()' data=u'Machine learning is teaching us the secr'>]>
+<bound method SelectorList.extract of []>,<bound method SelectorList.extract of []>
+<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/@href' data=u'https://fezvrasta.github.io/bootstrap-ma'>]>,<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/text()' data=u'Material Design for Bootstrap'>]>
+<bound method SelectorList.extract of []>,<bound method SelectorList.extract of []>
+<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/@href' data=u'http://perlhacks.com/2014/09/perls-probl'>]>,"<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/text()' data=u""Perl's Problems"">]>"
+<bound method SelectorList.extract of []>,<bound method SelectorList.extract of []>
+<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/@href' data=u'http://tylergaw.com/articles/building-os'>]>,<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/text()' data=u'Building OS X Apps with JavaScript'>]>
+<bound method SelectorList.extract of []>,<bound method SelectorList.extract of []>
+<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/@href' data=u'https://github.com/lafikl/RWDPerf'>]>,<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/text()' data=u'RWDPerf \u2013 Performance testing for Respon'>]>
+<bound method SelectorList.extract of []>,<bound method SelectorList.extract of []>
+<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/@href' data=u'http://www.ischool.berkeley.edu/newsande'>]>,<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/text()' data=u'Why the Facebook Experiment Is Lousy Soc'>]>
+<bound method SelectorList.extract of []>,<bound method SelectorList.extract of []>
+<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/@href' data=u'http://www.vox.com/2014/9/8/6122867/we-n'>]>,"<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/text()' data=u'California blue whales, once nearly exti'>]>"
+<bound method SelectorList.extract of []>,<bound method SelectorList.extract of []>
+<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/@href' data=u'http://www.businessweek.com/news/2014-09'>]>,<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/text()' data=u'Mystery Man Who Moves Japanese Markets M'>]>
+<bound method SelectorList.extract of []>,<bound method SelectorList.extract of []>
+<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/@href' data=u'http://blog.lacebark.io/2014/09/25/area-'>]>,<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/text()' data=u'Area programmer laments designers don\u2019t '>]>
+<bound method SelectorList.extract of []>,<bound method SelectorList.extract of []>
+<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/@href' data=u'http://www.washingtonpost.com/local/crim'>]>,<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/text()' data=u'A Virginia hacker catches the attention '>]>
+<bound method SelectorList.extract of []>,<bound method SelectorList.extract of []>
+<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/@href' data=u'https://techtalk.intersec.com/2014/09/me'>]>,<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/text()' data=u'Optimizing two memory allocators'>]>
+<bound method SelectorList.extract of []>,<bound method SelectorList.extract of []>
+<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/@href' data=u'http://news.nationalgeographic.com/news/'>]>,<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/text()' data=u'Did the Vikings Get a Bum Rap?'>]>
+<bound method SelectorList.extract of []>,<bound method SelectorList.extract of []>
+<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/@href' data=u'https://a16z.com/2014/09/26/valuation-th'>]>,<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/text()' data=u'Raising Capital: Advice We Give Our\xa0Foun'>]>
+<bound method SelectorList.extract of []>,<bound method SelectorList.extract of []>
+<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/@href' data=u'item?id=8379862'>]>,<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/text()' data=u'Ask HN: Final year project in CS'>]>
+<bound method SelectorList.extract of []>,<bound method SelectorList.extract of []>
+<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/@href' data=u'http://www.scottaaronson.com/democritus/'>]>,<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/text()' data=u'Quantum mechanics as a generalization of'>]>
+<bound method SelectorList.extract of []>,<bound method SelectorList.extract of []>
+<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/@href' data=u'http://fastcompression.blogspot.com/2014'>]>,<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/text()' data=u'Counting bytes fast'>]>
+<bound method SelectorList.extract of []>,<bound method SelectorList.extract of []>
+<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/@href' data=u'http://oona.windytan.com/estonia/'>]>,<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/text()' data=u'M/S Estonia accident radio transcript'>]>
+<bound method SelectorList.extract of []>,<bound method SelectorList.extract of []>
+<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/@href' data=u'https://blog.cloudflare.com/one-more-thi'>]>,<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/text()' data=u'One More Thing: Keyless SSL and CloudFla'>]>
+<bound method SelectorList.extract of []>,<bound method SelectorList.extract of []>
+<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/@href' data=u'http://www.mrteacup.org/post/the-cult-of'>]>,<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/text()' data=u'The Cult of Sharing'>]>
+<bound method SelectorList.extract of []>,<bound method SelectorList.extract of []>
+<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/@href' data=u'http://www.wilfred.me.uk/blog/2014/09/27'>]>,<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/text()' data=u'The Definitive Guide to Syntax Highlight'>]>
+<bound method SelectorList.extract of []>,<bound method SelectorList.extract of []>
+<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/@href' data=u'item?id=8379613'>]>,<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/text()' data=u'Ask HN: Where can I find technical co-fo'>]>
+<bound method SelectorList.extract of []>,<bound method SelectorList.extract of []>
+<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/@href' data=u'http://lcamtuf.blogspot.com/2014/09/bash'>]>,<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/text()' data=u'Bash bug: apply the unofficial patch now'>]>
+<bound method SelectorList.extract of []>,<bound method SelectorList.extract of []>
+<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/@href' data=u'http://yahoo.tumblr.com/post/98474044364'>]>,<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/text()' data=u'Yahoo is killing off the Yahoo Directory'>]>
+<bound method SelectorList.extract of []>,<bound method SelectorList.extract of []>
+<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/@href' data=u'http://jvns.ca/blog/2014/09/27/how-does-'>]>,<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/text()' data=u'How does SQLite work? Part 1: Pages'>]>
+<bound method SelectorList.extract of []>,<bound method SelectorList.extract of []>
+<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/@href' data=u'http://lemire.me/blog/archives/2014/09/1'>]>,<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/text()' data=u'Academia or industry?'>]>
+<bound method SelectorList.extract of []>,<bound method SelectorList.extract of []>
+<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/@href' data=u'https://www.dfranke.us/posts/2014-09-27-'>]>,<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/text()' data=u'Shell Shock Exploitation Vectors'>]>
+<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/@href' data=u'news?p=2'>]>,<bound method SelectorList.extract of [<HtmlXPathSelector xpath='a/text()' data=u'More'>]>
