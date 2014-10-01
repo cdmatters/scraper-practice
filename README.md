@@ -19,3 +19,5 @@ socrata - prepares an introduction to Scrapy, by crawling and scraping socrata a
 B) Original Projects: these projects are exercises devised by CM to further skills or just for kicks!
 
 angelcrunch - this project is designed to investigate the data available on angellist and crunchbase as requested as part of an exercise for work
+
+
