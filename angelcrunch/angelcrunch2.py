@@ -18,9 +18,12 @@ class AngelSearch(object):
   
         self.funding = {}
         self.founders = {}
-        print "initialised!"
+        self.employees = {}
+
 
     def get_funding(self):
+    #returns a dict with info on Type, Date, Value, Investors for each Funding Round
+    #updates self.funding variable  
         print "getting funding data...",
         strainer = SoupStrainer("ul", {"class": 'startup_rounds with_rounds'})
         mySoup = BeautifulSoup(self.raw_html, "html.parser", parse_only=strainer)
@@ -34,96 +37,119 @@ class AngelSearch(object):
         for section in mySoup.find_all('div', {"class": "section show"}): 
             u = BeautifulSoup(unicode(section))
 
-            name = BeautifulSoup(unicode(u.find('div', {'class':'type'})))
-            date = BeautifulSoup(unicode(u.find('div', {'class':"date_display"})))
-            value = BeautifulSoup(unicode(u.find('div', {'class':'raised'})))
-            investors = BeautifulSoup(unicode(u.find('div', {'class':'participant_list inner_section'})))         
+            nameSoup = BeautifulSoup(unicode(u.find('div', {'class':'type'})))
+            dateSoup = BeautifulSoup(unicode(u.find('div', {'class':"date_display"})))
+            valueSoup = BeautifulSoup(unicode(u.find('div', {'class':'raised'})))
+            investorsSoup = BeautifulSoup(unicode(u.find('div', {'class':'participant_list inner_section'})))         
 
             j= {
-                key[0] : (name.get_text()).strip('\n'),
-                key[1] : date.get_text().strip('\n'),
-                key[2] : value.get_text().strip('\n'),
-                key[3] : investors.get_text().strip('\n'),
+                key[0] : nameSoup.get_text().strip('\n'),
+                key[1] : dateSoup.get_text().strip('\n'),
+                key[2] : valueSoup.get_text().strip('\n'),
+                key[3] : investorsSoup.get_text().strip('\n'),
                 }
 
             data_store.update({'name%d' % (l-i) : j})
             i +=1
-            j = {}
+
         print "done"
         self.funding = data_store
         return data_store
 
 
     def get_founders(self):
+    #returns a list of dicts with info on Name, Bio, and relevant Links for each Founder
+    #updates self.founders variable
         print "getting founder data...",
         strainer = SoupStrainer("div", {"class": 'founders section'})
         mySoup = BeautifulSoup(self.raw_html, "html.parser", parse_only=strainer)
-        #print mySoup
+
+
         key = {0:"Name", 1:"Bio", 2:"Links",}
-        data_store = {}
+        data_store = []
 
         i = 1
 
         for section in mySoup.find_all('li', {"class": "role"}):
             u = BeautifulSoup(unicode(section))
 
-            name = BeautifulSoup(unicode(u.find('div', {'class':'name'})))
-            bio = BeautifulSoup(unicode(u.find('div', {'class':"bio"})))
+            nameSoup = BeautifulSoup(unicode(u.find('div', {'class':'name'})))
+            bioSoup = BeautifulSoup(unicode(u.find('div', {'class':"bio"})))
             links = []
             
-            for link in bio.find_all('a', {'class':'at_mention_link'}):    
+            for link in bioSoup.find_all('a', {'class':'at_mention_link'}):    
                 links.append(link.get('href'))                   
             
            
             j= {
-                key[0] : (name.get_text()).strip('\n'),
-                key[1] : (bio.get_text()).strip('\n'),
+                key[0] : nameSoup.get_text().strip('\n'),
+                key[1] : bioSoup.get_text().strip('\n'),
                 key[2] : links,
                 }
 
-            data_store.update({'Founder%d' %  i : j})
+            data_store.append({'Founder%d' %  i : j})
             i +=1
-            j = {}
+            
         print "done"
         self.founders = data_store
         return data_store
 
 
-    def get_employees(self):
-        print "getting employee data...",
-        strainer = SoupStrainer("ul", {"class": 'startup_rounds with_rounds'})
+    def get_team(self):
+    #returns a dict of Team roles
+    #each dict returns a list of dicts with info on Name, Bio, and relevant Links for each team member
+    #updates self.employees variable
+        
+        print "getting team data...",
+        strainer = SoupStrainer("div", {"class": 'section team'})
         mySoup = BeautifulSoup(self.raw_html, "html.parser", parse_only=strainer)
-        
-        key = {0:"Type", 1:"Date", 2:"Value", 3:"Investors"}
-        data_store = {}
-        
-        l = len(mySoup.find_all('div', {"class": "section show"}))
-        i = 0
 
-        for section in mySoup.find_all('div', {"class": "section show"}): 
-            u = BeautifulSoup(unicode(section))
+        data_dict ={}
 
-            name = BeautifulSoup(unicode(u.find('div', {'class':'type'})))
-            date = BeautifulSoup(unicode(u.find('div', {'class':"date_display"})))
-            value = BeautifulSoup(unicode(u.find('div', {'class':'raised'})))
-            investors = BeautifulSoup(unicode(u.find('div', {'class':'participant_list inner_section'})))         
+        for s in mySoup.find_all('div', {'class':'group'}):
+            role = s.div.get('data-role').title()
+            roleSoup = BeautifulSoup(unicode(s))
+            
 
-            j= {
-                key[0] : (name.get_text()).strip('\n'),
-                key[1] : date.get_text().strip('\n'),
-                key[2] : value.get_text().strip('\n'),
-                key[3] : investors.get_text().strip('\n'),
-                }
+            if roleSoup.find('a',{'class':'view_all'}):
+                print 'large segment... sending to parser'
+                pass
 
-            data_store.update({'name%d' % (l-i) : j})
-            i +=1
-            j = {}
-        print "none"
-        self.funding = data_store
-        return data_store
+            else: 
+
+                key = {0:"Name", 1:"Bio", 2:"Links",}
+                data_store = []
+
+                i = 1
+
+                for section in roleSoup.find_all('li', {"class": "role"}):
+                    u = BeautifulSoup(unicode(section))
+
+                    nameSoup = BeautifulSoup(unicode(u.find('div', {'class':'name'})))
+                    bioSoup = BeautifulSoup(unicode(u.find('div', {'class':"bio"})))
+                    links = []
+                    
+                    for link in bioSoup.find_all('a', {'class':'at_mention_link'}):    
+                        links.append(link.get('href'))                   
+                    
+                   
+                    j= {
+                        key[0] : nameSoup.get_text().strip('\n'),
+                        key[1] : bioSoup.get_text().strip('\n'),
+                        key[2] : links,
+                        }
+
+                    data_store.append(j)
+                    
+                    i +=1
+                data_dict.update({role: data_store})     
+                print "done"
+                self.employees = data_dict
+                return data_dict
 
 
-
+    def team_json():
+        pass
 
 
     def angelic(self):
@@ -132,7 +158,7 @@ class AngelSearch(object):
         'Query' : self.query ,
         'Funding' : self.get_funding(),
         'Founder' : self.get_founders(),
-
+        'Employees': self.get_team(),
         }
         
         
@@ -143,7 +169,7 @@ y = raw_input('Start Up:... ')
 if y:
     y= AngelSearch(y)
 
-    print y.get_founders()
+    print y.get_team()
 else:
     y = AngelSearch("uber")
     print y.angelic()
