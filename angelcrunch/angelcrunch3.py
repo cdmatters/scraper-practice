@@ -51,8 +51,19 @@ class AngelSearch(object):
              
             data_role_dict.update({ i : agent.find_parent('div').get('data-role')})
             miniSoup = agent.find_parent('div', {'data-role':data_role_dict[i]})
+          
             
-            for profile in miniSoup.find_all('li', {'class', 'role'}):
+            view_all_button = miniSoup.find('a', {'class':'view_all'})
+
+            if view_all_button:
+                view_url = "https://www.angel.co"+view_all_button.get('href')
+                role_profiles = self.json_flip(view_url)
+
+            else:
+                role_profiles = miniSoup.find_all('li', {'class', 'role'})
+                
+
+            for profile in role_profiles:
                 name = profile.find('div', {'class':'name'})
                 bio = profile.find('div', {'class':"bio"})
                 links = []
@@ -67,11 +78,12 @@ class AngelSearch(object):
                     'Bio' :  bio.get_text().strip('\n'),
                     'Links' : links,
                     }
-
+                
                 data_store.append(j)
             data_dict.update({((data_role_dict[i]).title().replace("_"," ", )) : data_store})
-
+            data_store = []
             i+= 1
+            
         self.otheragents = data_dict    
         return data_dict
 
@@ -153,6 +165,8 @@ class AngelSearch(object):
         self.funding = data_dict
         return data_dict
 
+
+
     def update(self):
         print "Requesting update..."
         tagon = self.query.lower().replace(" ","-", )
@@ -163,6 +177,16 @@ class AngelSearch(object):
         jesus_saves.close
         print "... updated and stored"
         pass
+
+    def json_flip(self, url):
+        send_back_list = []
+        get_raw_data = urlopen(url)
+        jdata = json.load(get_raw_data)
+        for jp in jdata['startup_roles/startup_profile']:
+            send_back_list.append(BeautifulSoup(jp['html']))
+        return send_back_list
+
+
 
     def angelic(self):
         

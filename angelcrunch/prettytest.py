@@ -2,15 +2,14 @@
 #this script runs the module angelcrunch2
 
 from angelcrunch3 import AngelSearch as AS
-from angelcrunch2 import AngelSearch
 import sys
 
 
 y = raw_input('Start Up:... ')
 if y:
-    y= AngelSearch(y)
+    y= AS(y)
 else:
-    y = AngelSearch("uber")
+    y = AS("uber")
 
 
 
@@ -46,5 +45,7 @@ def prettiprint(pretty):
 
 
 y= AS("uber")
-prettiprint(y.get_team())
+#y.update()
+prettiprint(y.angelic())
 #prettiprint(y.angelic())
+
