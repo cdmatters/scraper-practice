@@ -1,7 +1,9 @@
 from urllib2 import urlopen
-from bs4 import BeautifulSoup as BeautifulSoup
-from bs4 import SoupStrainer
+from bs4 import BeautifulSoup, SoupStrainer
 import re
+import json
+
+
 
     
 class AngelSearch(object):   
@@ -11,14 +13,23 @@ class AngelSearch(object):
         tagon = (self.query.lower().replace(" ","-", ))
         self.start_url = "https://www.angellist.com/"+tagon
 
-        print "initialising...",
-        htmlPage = urlopen(self.start_url)
-        self.raw_html = htmlPage.read()
-        print "got data...",
+
+##################################################
+#        print "initialising...",
+#        htmlPage = urlopen(self.start_url)
+#        self.raw_html = htmlPage.read()
+#        print "got data...",
+
+        f = open('uber.html', 'r')
+        self.raw_html = f.read()
+##################################################
+
   
         self.funding = {}
         self.founders = {}
-        self.employees = {}
+        self.team = {}
+
+
 
 
     def get_funding(self):
@@ -49,7 +60,7 @@ class AngelSearch(object):
                 key[3] : investorsSoup.get_text().strip('\n'),
                 }
 
-            data_store.update({'name%d' % (l-i) : j})
+            data_store.update({'Round%d' % (l-i) : j})
             i +=1
 
         print "done"
@@ -79,7 +90,6 @@ class AngelSearch(object):
             
             for link in bioSoup.find_all('a', {'class':'at_mention_link'}):    
                 links.append(link.get('href'))                   
-            
            
             j= {
                 key[0] : nameSoup.get_text().strip('\n'),
@@ -98,7 +108,7 @@ class AngelSearch(object):
     def get_team(self):
     #returns a dict of Team roles
     #each dict returns a list of dicts with info on Name, Bio, and relevant Links for each team member
-    #updates self.employees variable
+    #updates self.team variable
         
         print "getting team data...",
         strainer = SoupStrainer("div", {"class": 'section team'})
@@ -113,7 +123,11 @@ class AngelSearch(object):
 
             if roleSoup.find('a',{'class':'view_all'}):
                 print 'large segment... sending to parser'
-                pass
+                v = roleSoup.find('a', {'class':'view_all'})
+                json_url = "https://www.angel.co"+v.get('href')
+                print json_url
+                self.team_json(json_url)
+                data_dict.update({'Role': 'json'})
 
             else: 
 
@@ -144,12 +158,32 @@ class AngelSearch(object):
                     i +=1
                 data_dict.update({role: data_store})     
                 print "done"
-                self.employees = data_dict
-                return data_dict
+        
+        self.team = data_dict
+        return data_dict
 
 
-    def team_json():
-        pass
+    def team_json(self, url):
+#############################################
+#        output = urlopen(url)
+    
+        f = open('json.html', 'r')
+        output = f   
+#############################################
+
+
+        data = json.load(output)
+
+        print data.keys()
+        data2 = data['startup_roles/startup_profile']
+        for d in data2:
+            print d.keys()
+            print d['html']
+        return None
+
+
+
+       
 
 
     def angelic(self):
@@ -157,8 +191,8 @@ class AngelSearch(object):
         return {
         'Query' : self.query ,
         'Funding' : self.get_funding(),
-        'Founder' : self.get_founders(),
-        'Employees': self.get_team(),
+        'Founders' : self.get_founders(),
+        'Team': self.get_team(),
         }
         
         
@@ -172,4 +206,5 @@ if y:
     print y.get_team()
 else:
     y = AngelSearch("uber")
-    print y.angelic()
+
+print y.angelic()
