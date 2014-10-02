@@ -8,12 +8,9 @@ import sys
 y = raw_input('Start Up:... ')
 if y:
     y= AngelSearch(y)
-
-    print y.get_team()
 else:
     y = AngelSearch("uber")
 
-    y.raw_html = open('uber.html')
 
 
 
@@ -44,3 +41,4 @@ def prettiprint(pretty):
 
 prettiprint(y.angelic())
 
+#prettiprint(y.get_institution_investors())

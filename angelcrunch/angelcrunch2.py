@@ -4,7 +4,6 @@ import re
 import json
 
 
-
     
 class AngelSearch(object):   
 
@@ -14,16 +13,16 @@ class AngelSearch(object):
         self.start_url = "https://www.angellist.com/"+tagon
         print "initialising...",
         try:
-            jesus_saves = open('%s.html'%tagon , 'r')
+            jesus_saves = open('local_store/%s.html'%tagon , 'r')
             self.raw_html =  jesus_saves.read()
             jesus_saves.close()    
-            print "found written data."
+            print "found local data."
 
         except IOError:
-            print "no data found. fetching from AngelList...",
+            print "no local data. \nfetching from AngelList...",
             htmlPage = urlopen(self.start_url)
             self.raw_html = htmlPage.read()
-            jesus_saves = open('%s.html'%tagon , 'w')
+            jesus_saves = open('local_store/%s.html'%tagon , 'w')
             jesus_saves.write(self.raw_html)
             jesus_saves.close
             print "done."
@@ -31,6 +30,10 @@ class AngelSearch(object):
         self.funding = {}
         self.founders = {}
         self.team = {}
+        self.name = ''
+        self.tagline = ''
+        self.tags = []
+        self.otheragents ={}
 #        self.json_stores = {}
 
 
@@ -41,8 +44,7 @@ class AngelSearch(object):
         strainer = SoupStrainer("ul", {"class": 'startup_rounds with_rounds'})
         mySoup = BeautifulSoup(self.raw_html, "html.parser", parse_only=strainer)
         
-        key = {0:"Type", 1:"Date", 2:"Value", 3:"Investors"}
-        data_store = {}
+        data_dict = {}
         
         l = len(mySoup.find_all('div', {"class": "section show"}))
         i = 0
@@ -56,18 +58,18 @@ class AngelSearch(object):
             investorsSoup = BeautifulSoup(unicode(u.find('div', {'class':'participant_list inner_section'})))         
 
             j= {
-                key[0] : nameSoup.get_text().strip('\n'),
-                key[1] : dateSoup.get_text().strip('\n'),
-                key[2] : valueSoup.get_text().strip('\n'),
-                key[3] : investorsSoup.get_text().strip('\n'),
+                "Type" : nameSoup.get_text().strip('\n'),
+                "Date" : dateSoup.get_text().strip('\n'),
+                "Value" : valueSoup.get_text().strip('\n'),
+                "Investors" : investorsSoup.get_text().strip('\n'),
                 }
 
-            data_store.update({'Round%d' % (l-i) : j})
+            data_dict.update({'Round%d' % (l-i) : j})
             i +=1
 
         print "done"
-        self.funding = data_store
-        return data_store
+        self.funding = data_dict
+        return data_dict
 
 
     def get_founders(self):
@@ -77,23 +79,22 @@ class AngelSearch(object):
         strainer = SoupStrainer("div", {"class": 'founders section'})
         mySoup = BeautifulSoup(self.raw_html, "html.parser", parse_only=strainer)
 
-        key = {0:"Name", 1:"Bio", 2:"Links",}
         data_store = []
 
         for section in mySoup.find_all('li', {"class": "role"}):
             u = BeautifulSoup(unicode(section))
 
-            nameSoup = BeautifulSoup(unicode(u.find('div', {'class':'name'})))
-            bioSoup = BeautifulSoup(unicode(u.find('div', {'class':"bio"})))
+            name = u.find('div', {'class':'name'})
+            bio = u.find('div', {'class':"bio"})
             links = []
 
-            for link in bioSoup.find_all('a', {'class':'at_mention_link'}):    
+            for link in bio.find_all('a', {'class':'at_mention_link'}):    
                 links.append(link.get('href'))                   
            
             j= {
-                key[0] : nameSoup.get_text().strip('\n'),
-                key[1] : bioSoup.get_text().strip('\n'),
-                key[2] : links,
+                "Name" : name.get_text().strip('\n'),
+                "Bio" : bio.get_text().strip('\n'),
+                "Links" : links,
                 }
 
             data_store.append(j)
@@ -126,23 +127,25 @@ class AngelSearch(object):
 
             else: 
 
-                key = {0:"Name", 1:"Bio", 2:"Links",}
                 data_store = []
 
                 for section in roleSoup.find_all('li', {"class": "role"}):
                     u = BeautifulSoup(unicode(section))
 
-                    nameSoup = BeautifulSoup(unicode(u.find('div', {'class':'name'})))
-                    bioSoup = BeautifulSoup(unicode(u.find('div', {'class':"bio"})))
+                    name = u.find('div', {'class':'name'})
+                    bio = u.find('div', {'class':"bio"}) 
                     links = []
                     
-                    for link in bioSoup.find_all('a', {'class':'at_mention_link'}):    
-                        links.append(link.get('href'))                   
-                    
+                    if not bio:
+                        bio = name
+                    for link in bio.find_all('a', {'class':'at_mention_link'}):    
+                        links.append(link.get('href'))
+
+                        
                     j= {
-                        key[0] : nameSoup.get_text().strip('\n'),
-                        key[1] : bioSoup.get_text().strip('\n'),
-                        key[2] : links,
+                        'Name' : name.get_text().strip('\n'),
+                        'Bio' : bio.get_text().strip('\n'),
+                        'Links' : links,
                         }
 
                     data_store.append(j)
@@ -155,16 +158,17 @@ class AngelSearch(object):
 
 
     def team_parser(self, url):
+
+
 #############################################
-        get_raw_data = urlopen(url)
+#        get_raw_data = urlopen(url)
     
-#        f = open('json.html', 'r')
-#        get_raw_data = f   
+        f = open('json.html', 'r')
+        get_raw_data = f   
 #############################################
         jdata = json.load(get_raw_data)
 
 
-        key = {0:"Name", 1:"Bio", 2:"Links",}
         data_store = []
        
         jprofiles = jdata['startup_roles/startup_profile']
@@ -178,19 +182,75 @@ class AngelSearch(object):
                 links.append(link.get('href'))                   
 
             j= {
-                key[0] : nameSoup.get_text().strip('\n'),
-                key[1] : bioSoup.get_text().strip('\n'),
-                key[2] : links,
+                "Name" : nameSoup.get_text().strip('\n'),
+                "Bio" : bioSoup.get_text().strip('\n'),
+                "Links" : links,
                 }
 
             data_store.append(j)
         return data_store
 
+    def get_name(self):
+        print "getting name data...",
+        strainer = SoupStrainer("div", {"class": 'summary'})
+        mySoup = BeautifulSoup(self.raw_html, "html.parser", parse_only=strainer)
+
+        data_dict = {}
+
+        self.name = mySoup.h1.get_text()
+        self.tagline= mySoup.h2.get_text()
+        tag_html = mySoup.find_all( 'a', {'class':'tag'})
+        for t in tag_html:
+            self.tags.append(t.get_text())
+        print "done."
+        return {'Name': self.name, 'Tagline': self.tagline, 'Tags': self.tags}
+        
+
+    def get_other_agents(self):
+        print "getting institution data...",
+        strainer = SoupStrainer("div", {"class": 'past_financing section'})
+        mySoup = BeautifulSoup(self.raw_html, "html.parser", parse_only=strainer)
+       # print mySoup
+        data_dict = {}
+        data_store = []
+        i = 0
+        data_role_dict = {}
+
+        for medrole in mySoup.find_all('ul', {'class':'medium roles'}):
+
+            data_role_dict.update({ i :  medrole.find_parent('div').get('data-role')})
+            miniSoup = medrole.find_parent('div', {'data-role':data_role_dict[i]})
+            
+            for profile in miniSoup.find_all('li', {'class', 'role'}):
+                name = profile.find('div', {'class':'name'})
+                bio = profile.find('div', {'class':"bio"})
+                links = []
+
+                for link in bio.find_all('a', {'class':'at_mention_link'}):    
+                    links.append(link.get('href'))
+
+                j= {
+                    'Name' : name.get_text().strip('\n'),
+                    'Bio' :  bio.get_text().strip('\n'),
+                    'Links' : links,
+                    }
+
+                data_store.append(j)
+            data_dict.update({((data_role_dict[i]).title().replace("_"," ", )) : data_store})
+
+            i+= 1
+        self.otheragents = data_dict    
+        return data_dict
+        
+
+
+    def get_press(self):
+        pass
 
     def update(self):
         print "Requesting update..."
         tagon = self.query.lower().replace(" ","-", )
-        jesus_saves = open('%s.html'%tagon , 'w')
+        jesus_saves = open('local_store/%s.html'%tagon , 'w')
         htmlPage = urlopen(self.start_url)
         self.raw_html = htmlPage.read()
         jesus_saves.write(self.raw_html)
@@ -200,14 +260,17 @@ class AngelSearch(object):
        
     def angelic(self):
         
+        self.get_name()
+
         return {
         'Query' : self.query ,
         'Funding' : self.get_funding(),
         'Founders' : self.get_founders(),
         'Team': self.get_team(),
+        'Name': self.name,
+        'Tagline' : self.tagline,
+        'Tags':self.tags, 
+        'Institutions/Investors' : self.get_other_agents()
         }
         
         
-
-
-
