@@ -1,6 +1,7 @@
 #prettytest.py
 #this script runs the module angelcrunch2
 
+from angelcrunch3 import AngelSearch as AS
 from angelcrunch2 import AngelSearch
 import sys
 
@@ -39,6 +40,11 @@ def prettiprint(pretty):
             print '\n', (i*'!   '),
             sys.stdout.write('')
 
-prettiprint(y.angelic())
+
 
 #prettiprint(y.get_institution_investors())
+
+
+y= AS("uber")
+prettiprint(y.get_team())
+#prettiprint(y.angelic())

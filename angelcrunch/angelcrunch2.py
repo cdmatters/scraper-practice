@@ -46,10 +46,10 @@ class AngelSearch(object):
         
         data_dict = {}
         
-        l = len(mySoup.find_all('div', {"class": "section show"}))
+        funding = mySoup.find_all('div', {"class": "section show"})
         i = 0
 
-        for section in mySoup.find_all('div', {"class": "section show"}): 
+        for section in funding: 
             u = BeautifulSoup(unicode(section))
 
             nameSoup = BeautifulSoup(unicode(u.find('div', {'class':'type'})))
@@ -64,7 +64,7 @@ class AngelSearch(object):
                 "Investors" : investorsSoup.get_text().strip('\n'),
                 }
 
-            data_dict.update({'Round%d' % (l-i) : j})
+            data_dict.update({'Round%d' % (len(funding)-i) : j})
             i +=1
 
         print "done"
@@ -140,7 +140,6 @@ class AngelSearch(object):
                         bio = name
                     for link in bio.find_all('a', {'class':'at_mention_link'}):    
                         links.append(link.get('href'))
-
                         
                     j= {
                         'Name' : name.get_text().strip('\n'),
@@ -178,6 +177,7 @@ class AngelSearch(object):
             nameSoup = BeautifulSoup(unicode(jSoup.find('div', {'class':'name'})))
             bioSoup = BeautifulSoup(unicode(jSoup.find('div', {'class':"bio"})))
             links = []
+
             for link in bioSoup.find_all('a', {'class':'at_mention_link'}):    
                 links.append(link.get('href'))                   
 
