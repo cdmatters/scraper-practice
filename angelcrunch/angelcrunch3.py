@@ -6,6 +6,7 @@ from bs4 import BeautifulSoup, SoupStrainer
 import re
 import json
 import os 
+import shutil
 
 
     
@@ -177,8 +178,10 @@ class AngelSearch(object):
 
     def update(self):
         print "Requesting update..."
+        shutil.rmtree('local_store/%s' %self.tagon)
+        os.makedirs('local_store/%s'%self.tagon)
         self.tagon = self.query.lower().replace(" ","-", )
-        jesus_saves = open('local_store/%s.html'%self.tagon , 'w')
+        jesus_saves = open('local_store/%s/%s.html'%(self.tagon ,self.tagon), 'w')
         htmlPage = urlopen(self.start_url)
         self.raw_html = htmlPage.read()
         jesus_saves.write(self.raw_html)
@@ -229,6 +232,7 @@ class AngelSearch(object):
 if __name__ == "__main__":
     test = AngelSearch("Uber")
     test.angelic()
+    test.update()
 
 
 
