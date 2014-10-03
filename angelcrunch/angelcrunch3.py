@@ -5,18 +5,25 @@ from urllib2 import urlopen
 from bs4 import BeautifulSoup, SoupStrainer
 import re
 import json
+import os 
 
 
     
 class AngelSearch(object):   
 
     def __init__(self, query):
+        
         self.query = query
-        tagon = (self.query.lower().replace(" ","-", ))
-        self.start_url = "https://www.angellist.com/"+tagon
+        self.tagon = (self.query.lower().replace(" ","-", ))
+        self.start_url = "https://www.angellist.com/"+self.tagon
+
+        if not os.path.exists('local_store/%s' %self.tagon):
+            os.makedirs('local_store/%s'%self.tagon)
+
+
         print "initialising...",
         try:
-            jesus_saves = open('local_store/%s.html'%tagon , 'r')
+            jesus_saves = open('local_store/%s/%s.html'%(self.tagon,self.tagon) , 'r')
             self.raw_html =  jesus_saves.read()
             jesus_saves.close()    
             print "found local data."
@@ -25,7 +32,7 @@ class AngelSearch(object):
             print "no local data. \nfetching from AngelList...",
             htmlPage = urlopen(self.start_url)
             self.raw_html = htmlPage.read()
-            jesus_saves = open('local_store/%s.html'%tagon , 'w')
+            jesus_saves = open('local_store/%s/%s.html'%(self.tagon,self.tagon) , 'w')
             jesus_saves.write(self.raw_html)
             jesus_saves.close
             print "done."
@@ -36,7 +43,8 @@ class AngelSearch(object):
         self.name = ''
         self.tagline = ''
         self.tags = []
-        self.otheragents ={}
+        self.otheragents = {}
+        self.angel = {}
 
 
     def agent_engine(self, html_sections, class_search):
@@ -51,17 +59,14 @@ class AngelSearch(object):
              
             data_role_dict.update({ i : agent.find_parent('div').get('data-role')})
             miniSoup = agent.find_parent('div', {'data-role':data_role_dict[i]})
-          
-            
             view_all_button = miniSoup.find('a', {'class':'view_all'})
 
             if view_all_button:
+                print "found view all.\n   fetching json..."
                 view_url = "https://www.angel.co"+view_all_button.get('href')
-                role_profiles = self.json_flip(view_url)
-
+                role_profiles = self.json_flip(view_url,data_role_dict[i])
             else:
-                role_profiles = miniSoup.find_all('li', {'class', 'role'})
-                
+                role_profiles = miniSoup.find_all('li', {'class', 'role'}) 
 
             for profile in role_profiles:
                 name = profile.find('div', {'class':'name'})
@@ -83,8 +88,7 @@ class AngelSearch(object):
             data_dict.update({((data_role_dict[i]).title().replace("_"," ", )) : data_store})
             data_store = []
             i+= 1
-            
-        self.otheragents = data_dict    
+             
         return data_dict
 
 
@@ -94,7 +98,9 @@ class AngelSearch(object):
         strainer = SoupStrainer("div", {"class": 'past_financing section'})
         mySoup = BeautifulSoup(self.raw_html, "html.parser", parse_only=strainer)
 
-        return self.agent_engine(mySoup, 'medium roles')
+        self.otheragents = self.agent_engine(mySoup, 'medium roles')
+        print 'done.'
+        return self.otheragents
 
 
     def get_larger_agents(self):
@@ -103,7 +109,9 @@ class AngelSearch(object):
         strainer = SoupStrainer("div", {"class": 'founders section'})
         mySoup = BeautifulSoup(self.raw_html, "html.parser", parse_only=strainer)
 
-        return self.agent_engine(mySoup, 'larger roles')
+        self.founders = self.agent_engine(mySoup, 'larger roles')
+        print 'done.'
+        return self.founders
 
 
     def get_team(self):
@@ -111,7 +119,9 @@ class AngelSearch(object):
         strainer = SoupStrainer("div", {"class": 'section team'})
         mySoup = BeautifulSoup(self.raw_html, "html.parser", parse_only=strainer)
 
-        return self.agent_engine(mySoup, 'medium roles')
+        self.team = self.agent_engine(mySoup, 'medium roles')
+        print 'done.'
+        return self.team
 
 
 
@@ -165,12 +175,10 @@ class AngelSearch(object):
         self.funding = data_dict
         return data_dict
 
-
-
     def update(self):
         print "Requesting update..."
-        tagon = self.query.lower().replace(" ","-", )
-        jesus_saves = open('local_store/%s.html'%tagon , 'w')
+        self.tagon = self.query.lower().replace(" ","-", )
+        jesus_saves = open('local_store/%s.html'%self.tagon , 'w')
         htmlPage = urlopen(self.start_url)
         self.raw_html = htmlPage.read()
         jesus_saves.write(self.raw_html)
@@ -178,10 +186,21 @@ class AngelSearch(object):
         print "... updated and stored"
         pass
 
-    def json_flip(self, url):
+    def json_flip(self, url, name):
         send_back_list = []
-        get_raw_data = urlopen(url)
-        jdata = json.load(get_raw_data)
+        try:
+            print "   searching for local data...",
+            jdata = json.load(open('local_store/%s/%s.json' % (self.tagon,name)))
+            print "found..."
+        except IOError:
+            print "no local data.\n   fetching json data...",
+            get_raw_data = urlopen(url)
+            jdata = json.load(get_raw_data)
+            jesus_saves = open('local_store/%s/%s.json'%(self.tagon,name), 'w') 
+            jesus_saves.write(json.dumps(jdata))
+            print "loaded and saved."
+
+        
         for jp in jdata['startup_roles/startup_profile']:
             send_back_list.append(BeautifulSoup(jp['html']))
         return send_back_list
@@ -192,16 +211,22 @@ class AngelSearch(object):
         
         self.get_name()
 
-        return {
+        self.angel = {
         'Query' : self.query ,
         'Funding' : self.get_funding(),
-        'Founders' : self.get_larger_agents(),
-        'Team': self.get_team(),
         'Name': self.name,
         'Tagline' : self.tagline,
         'Tags':self.tags, 
-        'Institutions/Investors' : self.get_medium_agents()
         }
+
+        self.angel.update(self.get_larger_agents())
+        self.angel.update(self.get_team())
+        self.angel.update(self.get_medium_agents())
+        #return self.angel
+        pass
+    
+
+
 
 
 

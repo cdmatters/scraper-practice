@@ -44,8 +44,23 @@ def prettiprint(pretty):
 #prettiprint(y.get_institution_investors())
 
 
-y= AS("uber")
+
 #y.update()
+'''prettiprint(y.angelic())
+print "\n\n\n\n\n"
+prettiprint(y.get_funding())
+print "\n\n\n"
+prettiprint(y.get_name())
+print "\n\n\n"
+prettiprint(y.get_team())
+print "\n\n\n"
+prettiprint(y.get_larger_agents())
+print "\n\n\n"
+prettiprint(y.get_medium_agents())
+'''
+
 prettiprint(y.angelic())
-#prettiprint(y.angelic())
+
+
+
 
