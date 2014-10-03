@@ -222,12 +222,13 @@ class AngelSearch(object):
         self.angel.update(self.get_larger_agents())
         self.angel.update(self.get_team())
         self.angel.update(self.get_medium_agents())
-        #return self.angel
-        pass
+        return self.angel
+        
     
 
-
-
+if __name__ == "__main__":
+    test = AngelSearch("Uber")
+    test.angelic()
 
 
 
