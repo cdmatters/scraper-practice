@@ -48,8 +48,6 @@ class AngelSearch(object):
 
 
     def agent_engine(self, html_sections, class_search):
-        #flexible engine takes chunks of Soup creates list of dicts storing {Name, Bio, Links}
-        #each list then put into a dict, with extracted role-type: ie {Employee: [{NBL},{NBL}]}    
 
         mySoup = html_sections
 
@@ -60,13 +58,14 @@ class AngelSearch(object):
         
         for agent in mySoup.find_all('ul', {'class': class_search}): 
 
-            data_role_dict.update( {i : agent.find_parent('div').get('data-role')})
-            miniSoup = agent.find_parent('div', {'data-role':data_role_dict[i]})
+            agent_type = agent.find_parent('div').get('data-role')
+
+            miniSoup = agent.find_parent('div', {'data-role':agent_type})
             view_all_button = miniSoup.find('a', {'class':'view_all'})
 
             if view_all_button:
                 view_url = "https://www.angel.co"+view_all_button.get('href')
-                role_profiles = self.json_flip(view_url,data_role_dict[i])
+                role_profiles = self.json_flip(view_url,agent_type)
             else:
                 role_profiles = miniSoup.find_all('li', {'class', 'role'}) 
 
@@ -87,19 +86,11 @@ class AngelSearch(object):
                     }
                 
                 data_store.append(j)
-            data_dict.update({((data_role_dict[i]).title().replace("_"," ",)):data_store})
+            data_dict.update({ agent_type.title().replace("_"," ",) : data_store})
             data_store = []
             i+= 1
              
         return data_dict
-
-    def get_medium_agents(self):
-        #get all
-        strainer = SoupStrainer("div", {"class": 'past_financing section'})
-        mySoup = BeautifulSoup(self.raw_html, "html.parser", parse_only=strainer)
-        
-        self.otheragents = self.agent_engine(mySoup, 'medium roles')
-        return self.otheragents
 
     def get_larger_agents(self):
 
@@ -108,6 +99,14 @@ class AngelSearch(object):
 
         self.founders = self.agent_engine(mySoup, 'larger roles')
         return self.founders
+    
+    def get_medium_agents(self):
+        #get all
+        strainer = SoupStrainer("div", {"class": 'past_financing section'})
+        mySoup = BeautifulSoup(self.raw_html, "html.parser", parse_only=strainer)
+        
+        self.otheragents = self.agent_engine(mySoup, 'medium roles')
+        return self.otheragents
 
     def get_team(self):
 
@@ -141,7 +140,38 @@ class AngelSearch(object):
         for d in descripSouplist:
             self.product = self.product+d.get_text(strip=True)+'\n'
 
-        return self.product
+        return {'Product' : self.product}
+
+    def get_press(self):
+
+        if os.path.exists('local_store/%s/activity.html' %self.tagon):
+            with open('local_store/%s/activity.html' %self.tagon, 'r') as afile:
+                activity_html = afile.read()
+        else:
+            print 'getting press html from Angellist...'
+            htmlPage = urlopen(self.start_url+'/activity#press')
+            with open('local_store/%s/activity.html'%self.tagon, 'w') as afile:
+                activity_html = htmlPage.read()
+                afile.write(activity_html)
+
+        strainer = SoupStrainer('div', {'class':'updates'})
+        mySoup = BeautifulSoup(activity_html, "html.parser", parse_only =strainer)
+        
+        self.press=[]
+        pressSouplist = mySoup.find_all('div', {'data-tab':'press'})
+
+        for newsSoup in pressSouplist:
+            date = newsSoup.find('div', {"class":"timestamp"}).get_text(strip=True)
+            site = newsSoup.find('span', {"class":"type"}).get_text(strip=True)
+            url = newsSoup.find('div', {'class':'headline'}).a['href']
+            headline = newsSoup.find('div', {'class':'headline'}).get_text(strip=True)
+            snippet = newsSoup.find('div', {'class':'summary'}).get_text(strip=True)
+
+            j = {'Date': date, 'Site':site, 'Link':url,
+                 'Headline':headline, 'Summary':snippet}
+            self.press.append(j)
+
+        return {'Press':self.press}
 
     def get_funding(self):
 
@@ -177,9 +207,10 @@ class AngelSearch(object):
             i +=1
 
         self.funding = data_dict
-        return self.funding
+        return {'Funding' : self.funding}
 
     def update(self):
+
         print "Requesting update..."
         shutil.rmtree('local_store/%s' %self.tagon)
         os.makedirs('local_store/%s'%self.tagon)
@@ -207,63 +238,26 @@ class AngelSearch(object):
             send_back_list.append(BeautifulSoup(jp['html']))
         return send_back_list
 
-    def get_press(self):
-
-        self.press=[]
-        if os.path.exists('local_store/%s/activity.html' %self.tagon):
-            with open('local_store/%s/activity.html' %self.tagon, 'r') as afile:
-                activity_html = afile.read()
-        else:
-            print 'getting press html from Angellist...'
-            htmlPage = urlopen(self.start_url+'/activity#press')
-            with open('local_store/%s/activity.html'%self.tagon, 'w') as afile:
-                activity_html = htmlPage.read()
-                afile.write(activity_html)
-
-        strainer = SoupStrainer('div', {'class':'updates'})
-        mySoup = BeautifulSoup(activity_html, "html.parser", parse_only =strainer)
-
-        pressSouplist = mySoup.find_all('div', {'data-tab':'press'})
-
-        for newsSoup in pressSouplist:
-            date = newsSoup.find('div', {"class":"timestamp"}).get_text(strip=True)
-            site = newsSoup.find('span', {"class":"type"}).get_text(strip=True)
-            url = newsSoup.find('div', {'class':'headline'}).a['href']
-            headline = newsSoup.find('div', {'class':'headline'}).get_text(strip=True)
-            snippet = newsSoup.find('div', {'class':'summary'}).get_text(strip=True)
-
-            j = {'Date': date, 'Site':site, 'Link':url,
-                 'Headline':headline, 'Summary':snippet}
-            self.press.append(j)
-
-        return self.press
-
     def angelic(self):
         
-        self.get_name()
-
-        self.angel = {
-        'Query' : self.query ,
-        'Funding' : self.get_funding(),
-        'Name': self.name,
-        'Tagline' : self.tagline,
-        'Tags':self.tags,
-        'Product': self.get_product(),
-        'Press' : self.get_press() 
-        }
-
+        self.angel = {}
+        self.angel.update({'Query' : self.query})
+        
+        self.angel.update(self.get_name())
         self.angel.update(self.get_larger_agents())
         self.angel.update(self.get_team())
-        self.angel.update(self.get_medium_agents())
-        
+        self.angel.update(self.get_funding())
+        self.angel.update(self.get_product())
+        self.angel.update(self.get_press()) 
+        self.angel.update(self.get_medium_agents())   
         pass
+
 
 if __name__ == "__main__":
     test = AngelSearch(raw_input('Enter Name of Start Up:...'))
     print 'FOUND DATA FOR: %s' %test.name.upper()
     for k in test.angel.keys():
         print k +',',
-
 
 
 def wipe_local_store():
