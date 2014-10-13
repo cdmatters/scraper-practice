@@ -14,14 +14,14 @@ class AngelSearch(object):
 
     def __init__(self, query):
         
+
         self.query = query
         self.tagon = (self.query.lower().replace(" ","-", ))
         self.start_url = "https://www.angellist.com/"+self.tagon
-
+        self.raw_html = None
         if not os.path.exists('local_store/%s' %self.tagon):
             os.makedirs('local_store/%s'%self.tagon)
 
-        
         print "initialising...",
         try:
             jesus_saves = open('local_store/%s/%s.html'%(self.tagon,self.tagon) , 'r')
@@ -42,8 +42,6 @@ class AngelSearch(object):
                 shutil.rmtree('local_store/%s' %self.tagon)
                 print '\n',e, '[ANGELLIST PAGE NOT FOUND]'
 
-
-
         self.funding = {}
         self.founders = {}
         self.team = {}
@@ -57,16 +55,18 @@ class AngelSearch(object):
 
 
     def agent_engine(self, html_sections, class_search):
+        #flexible engine takes chunks of Soup creates list of dicts storing {Name, Bio, Links}
+        #each list then put into a dict, with extracted role-type: ie {Employee: [{NBL},{NBL}]}    
         mySoup = html_sections
 
         data_dict = {}
         data_store = []
         i = 0
         data_role_dict = {}
+        
+        for agent in mySoup.find_all('ul', {'class': class_search}): 
 
-        for agent in mySoup.find_all('ul', {'class': class_search}):
-             
-            data_role_dict.update({ i : agent.find_parent('div').get('data-role')})
+            data_role_dict.update( {i : agent.find_parent('div').get('data-role')})
             miniSoup = agent.find_parent('div', {'data-role':data_role_dict[i]})
             view_all_button = miniSoup.find('a', {'class':'view_all'})
 
@@ -102,7 +102,7 @@ class AngelSearch(object):
 
 
     def get_medium_agents(self):
-        
+        #get all
         print "getting institution data...",
         strainer = SoupStrainer("div", {"class": 'past_financing section'})
         mySoup = BeautifulSoup(self.raw_html, "html.parser", parse_only=strainer)
@@ -163,27 +163,32 @@ class AngelSearch(object):
         i = 0
 
         for section in funding: 
-           
-            u = section
 
-            nameSoup = u.find('div', {'class':'type'})
-            dateSoup = u.find('div', {'class':"date_display"})
-            valueSoup = u.find('div', {'class':'raised'})
-            investorsSoup = u.find('div', {'class':'participant_list inner_section'})        
+            nameSoup = section.find('div', {'class':'type'})
+            dateSoup = section.find('div', {'class':"date_display"})
+            valueSoup = section.find('div', {'class':'raised'})
+            investorSoup = section.find_all('div', {'class':'name'})
 
-            j= {
-                "Type" : nameSoup.get_text().strip('\n'),
-                "Date" : dateSoup.get_text().strip('\n'),
-                "Value" : valueSoup.get_text().strip('\n'),
-                "Investors" : investorsSoup.get_text().strip('\n'),
-                }
+            keys = ['Type', 'Date', 'Value', 'Investors']
+            j={}
+            for souplists in [[nameSoup], [dateSoup], [valueSoup], investorSoup]:
+                datalist=[]
+                for soup in souplists:
+                    if soup:
+                        datalist.append(soup.get_text("|",strip=True))
+                    else:
+                        datalist = ['Unknown']
+                key = keys.pop(0)
+                if key != 'Investors':
+                    datalist = datalist.pop()
+                j.update({key : datalist})
 
             data_dict.update({'Round%d' % (len(funding)-i) : j})
             i +=1
 
         print "done"
         self.funding = data_dict
-        return data_dict
+        return self.funding
 
     def update(self):
         print "Requesting update..."
@@ -240,12 +245,12 @@ class AngelSearch(object):
         self.get_name()
 
         self.angel = {
-        'Query' : self.query ,
-        'Funding' : self.get_funding(),
-        'Name': self.name,
-        'Tagline' : self.tagline,
-        'Tags':self.tags,
-        'Product': self.get_product() 
+        unicode('Query') : self.query ,
+        unicode('Funding') : self.get_funding(),
+        unicode('Name'): self.name,
+        unicode('Tagline') : self.tagline,
+        unicode('Tags'):self.tags,
+        unicode('Product'): self.get_product() 
         }
 
         self.angel.update(self.get_larger_agents())
@@ -259,7 +264,7 @@ class AngelSearch(object):
 if __name__ == "__main__":
     test = AngelSearch(raw_input('Enter Name of Start Up:...'))
     test.angelic()
-    print test.angel.keys()
+    print 'FOUND DATA FOR:', test.angel.keys()
     print test.get_press()
 
 
