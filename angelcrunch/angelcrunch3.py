@@ -1,7 +1,7 @@
 #angelcrunch3
 #third refactored version of angel crunch with new methods.
 
-from urllib2 import urlopen
+from urllib2 import urlopen, HTTPError
 from bs4 import BeautifulSoup, SoupStrainer
 import re
 import json
@@ -21,7 +21,7 @@ class AngelSearch(object):
         if not os.path.exists('local_store/%s' %self.tagon):
             os.makedirs('local_store/%s'%self.tagon)
 
-
+        
         print "initialising...",
         try:
             jesus_saves = open('local_store/%s/%s.html'%(self.tagon,self.tagon) , 'r')
@@ -31,12 +31,18 @@ class AngelSearch(object):
 
         except IOError:
             print "no local data. \nfetching from AngelList...",
-            htmlPage = urlopen(self.start_url)
-            self.raw_html = htmlPage.read()
-            jesus_saves = open('local_store/%s/%s.html'%(self.tagon,self.tagon) , 'w')
-            jesus_saves.write(self.raw_html)
-            jesus_saves.close
-            print "done."
+            try:
+                htmlPage = urlopen(self.start_url)
+                self.raw_html = htmlPage.read()
+                jesus_saves = open('local_store/%s/%s.html'%(self.tagon,self.tagon) , 'w')
+                jesus_saves.write(self.raw_html)
+                jesus_saves.close
+                print "done."
+            except HTTPError, e:
+                shutil.rmtree('local_store/%s' %self.tagon)
+                print '\n',e, '[ANGELLIST PAGE NOT FOUND]'
+
+
 
         self.funding = {}
         self.founders = {}
@@ -46,6 +52,8 @@ class AngelSearch(object):
         self.tags = []
         self.otheragents = {}
         self.angel = {}
+        self.product = ''
+        self.press = []
 
 
     def agent_engine(self, html_sections, class_search):
@@ -86,7 +94,7 @@ class AngelSearch(object):
                     }
                 
                 data_store.append(j)
-            data_dict.update({((data_role_dict[i]).title().replace("_"," ", )) : data_store})
+            data_dict.update({((data_role_dict[i]).title().replace("_"," ",)):data_store})
             data_store = []
             i+= 1
              
@@ -151,16 +159,17 @@ class AngelSearch(object):
         
         data_dict = {}
         
-        funding = mySoup.find_all('div', {"class": "section show"})
+        funding = mySoup.find_all('div', {"class": "show section"})
         i = 0
 
         for section in funding: 
-            u = BeautifulSoup(unicode(section))
+           
+            u = section
 
-            nameSoup = BeautifulSoup(unicode(u.find('div', {'class':'type'})))
-            dateSoup = BeautifulSoup(unicode(u.find('div', {'class':"date_display"})))
-            valueSoup = BeautifulSoup(unicode(u.find('div', {'class':'raised'})))
-            investorsSoup = BeautifulSoup(unicode(u.find('div', {'class':'participant_list inner_section'})))         
+            nameSoup = u.find('div', {'class':'type'})
+            dateSoup = u.find('div', {'class':"date_display"})
+            valueSoup = u.find('div', {'class':'raised'})
+            investorsSoup = u.find('div', {'class':'participant_list inner_section'})        
 
             j= {
                 "Type" : nameSoup.get_text().strip('\n'),
@@ -180,7 +189,7 @@ class AngelSearch(object):
         print "Requesting update..."
         shutil.rmtree('local_store/%s' %self.tagon)
         os.makedirs('local_store/%s'%self.tagon)
-        self.tagon = self.query.lower().replace(" ","-", )
+        
         jesus_saves = open('local_store/%s/%s.html'%(self.tagon ,self.tagon), 'w')
         htmlPage = urlopen(self.start_url)
         self.raw_html = htmlPage.read()
@@ -209,6 +218,22 @@ class AngelSearch(object):
         return send_back_list
 
 
+    def get_product(self):
+        self.product=''
+        print 'getting product description...',
+        strainer = SoupStrainer('div', {'class': 'product section'})
+        mySoup = BeautifulSoup(self.raw_html, "html.parser", parse_only=strainer)
+
+        descripSouplist = mySoup.find_all('p')
+        for d in descripSouplist:
+            self.product = self.product+d.get_text().strip('\n')+'\n'
+        print 'done'
+        return self.product
+
+    def get_press(self):
+        pass
+
+
 
     def angelic(self):
         
@@ -219,20 +244,31 @@ class AngelSearch(object):
         'Funding' : self.get_funding(),
         'Name': self.name,
         'Tagline' : self.tagline,
-        'Tags':self.tags, 
+        'Tags':self.tags,
+        'Product': self.get_product() 
         }
 
         self.angel.update(self.get_larger_agents())
         self.angel.update(self.get_team())
         self.angel.update(self.get_medium_agents())
-        return self.angel
+
+        pass
         
     
 
 if __name__ == "__main__":
-    test = AngelSearch("Uber")
+    test = AngelSearch(raw_input('Enter Name of Start Up:...'))
     test.angelic()
-    test.update()
+    print test.angel.keys()
+    print test.get_press()
+
+
+def wipe_local_store():
+    ans = raw_input("Do you want to wipe ALL locally stored data?  Y/N :")
+
+    if ans.lower() == 'yes' or ans.lower() == 'y':
+        shutil.rmtree('local_store/')
+
 
 
 

@@ -1,0 +1,8 @@
+just some notes to self of things to change:
+
+-going to need to add a try/except for when a 404 error occurs, print a sorry message, then delete the created folder.
+-add product description scraper
+-add press section scraper
+-use VP scrape crawl for user agent and time delay
+
+
